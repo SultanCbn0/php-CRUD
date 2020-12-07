@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME PAGE</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body ng-app="myApp" ng-controller="listControl">
+    <div class="ara" ng-init="fetchProduct()">
+        <div class="ara">
+            <input type="text" ng-keyup="fetchProduct()" ng-model="search_query" placeholder="Enter your search"/>
+        </div>
+    </div>
+
+    <div class="container-left">
+
+        <label>Min: {{ ui.min | currency }}
+            <input type="range" min="0" max="1000" numeric data-ng-model="ui.min">
+        </label>
+        <hr>
+        <label>Max: {{ ui.max | currency }}
+            <input type="range" min="0" max="1000" numeric data-ng-model="ui.max">
+        </label>
+
+        <a class="display" ng-click="menuInsert()">INSERT PRODUCT</a>
+
+
+        <form id="Menu" ng-submit="insert()">
+            <h3>Product Id:<input type="number" ng-model="veri.id"></h3>
+            <h3>Product Name:<input type="text" ng-model="veri.name"></h3>
+            <h3>Product Desc.:<input type="text" ng-model="veri.desc"></h3>
+            <h3>Product Stock:<input type="number" ng-model="veri.stock"></h3>
+            <h3>Product Price:<input type="number" ng-model="veri.price"></h3>
+
+            <input class="buton" type="submit" value="Insert Product">
+        </form>
+
+        <form id="Menu2" ng-submit="update()">
+            <h3>Product Id:<input type="text" ng-model="veri2.id"></h3>
+            <h3>Product Name:<input type="text" ng-model="veri2.name"></h3>
+            <h3>Product Desc.:<input type="text" ng-model="veri2.desc"></h3>
+            <h3>Product Stock:<input type="text" ng-model="veri2.stock"></h3>
+            <h3>Product Price:<input type="text" ng-model="veri2.price"></h3>
+
+            <input class="buton" type="submit" value="Update Product">
+        </form>
+
+    </div>
+    <div class="container-right">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1" ng-click="order('id')">ID</div>
+                <div class="col col-2" ng-click="order('name')">Product Name</div>
+                <div class="col col-3" ng-click="order('desc')">Product Description</div>
+                <div class="col col-4" ng-click="order('stock')">Product Stock</div>
+                <div class="col col-5" ng-click="order('price')">Product Price</div>
+                <div class="col col-6">Delete</div>
+                <div class="col col-7">Update</div>
+            </li>
+            <li class="table-row" ng-repeat="x in Results | rangeFilter:'price':ui.min:ui.max">
+                <div class="col col-1">{{ x.id }}</div>
+                <div class="col col-2">{{ x.name }}</div>
+                <div class="col col-3">{{ x.desc }}</div>
+                <div class="col col-4">{{ x.stock }}</div>
+                <div class="col col-5">{{ x.price | currency:$ }}</div>
+
+                <button class="delbtn" ng-click="delete(x.id)">Delete</button>
+                <button class="delbtn" ng-click="menuUpdate(x.id)">Update</button>
+            </li>
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body></html>
